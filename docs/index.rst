@@ -6,11 +6,22 @@
 Welcome to handy's documentation!
 =================================
 
+Handy is a collection of different tools, shortcuts, decorators, form and model fields
+to make your django life easier.
+
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
+   decorators
+   ajax
+   mail
+   widgets
+   model_fields
+   middleware
+
+.. db
 
 
 Indices and tables

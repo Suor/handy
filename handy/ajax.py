@@ -44,7 +44,7 @@ class Ajax(object):
         @wraps(func)
         def wrapper(request, *args, **kwargs):
             if request.user.is_anonymous():
-                raise self.error('login_required', error_text=u'Необходима авторизация')
+                raise self.error('login_required')
             else:
                 return func(request, *args, **kwargs)
         return wrapper
@@ -57,7 +57,7 @@ def camel_to_underscores(name):
     return '_'.join(w.lower() for w in words)
 
 
-### Перекодирование объектов в json
+### Encoding object to json
 from pytz.tzinfo import DstTzInfo
 DstTzInfo.__json__ = lambda self: self.zone
 
