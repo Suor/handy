@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 
-class StripWhitespaceMiddleware(object):
+class StripWhitespace(object):
     """
     Strips leading and trailing whitespace from response content.
     """

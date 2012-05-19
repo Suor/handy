@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to handy's documentation!
+Welcome to handy documentation!
 =================================
 
 Handy is a collection of different tools, shortcuts, decorators, form and model fields
@@ -24,10 +24,10 @@ Contents:
 .. db
 
 
-Indices and tables
-==================
+.. Indices and tables
+.. ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. * :ref:`genindex`
+.. * :ref:`modindex`
+.. * :ref:`search`
 

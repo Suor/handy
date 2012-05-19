@@ -3,11 +3,6 @@
 Ajax wrap up
 ============
 
-.. .. function:: @ajax
-
-.. .. function:: @ajax.login_required
-
-
 An example of ajax handler and JSON datasource::
 
     from handy.ajax import ajax
@@ -30,3 +25,5 @@ An example of ajax handler and JSON datasource::
     def posts_by_tag(request, tag=None):
         # sends {"success": true, "data": [{...}, {...}, ...]}
         return Post.object.values().filter(tag=tag)
+
+See also :ref:`@render_to_json() <render_to_json>`

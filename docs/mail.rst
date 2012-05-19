@@ -11,12 +11,12 @@ Mail utilities
             article = ...
             render_to_email(article.author.email, 'approved.html', {'article': article})
 
-        # in approved.html
+    in approved.html::
+
         Content-Type: text/html
         Subject: Your article «{{ article.title }}» approved
 
         Hello, {{ article.author.username }}!<br><br>
-
         ....
 
 .. function:: mail_admins(subject, message='', trace=True)
