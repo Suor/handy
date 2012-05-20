@@ -51,6 +51,7 @@ def render_to(template=None):
 
 
 def _json_default(obj):
+    # TODO: unify json func here, in ajax, and the one used by JSONField
     if isinstance(obj, datetime):
         return obj.isoformat()
     raise TypeError
@@ -75,8 +76,8 @@ def render_to_json(ensure_ascii=True, default=_json_default):
 
 def last_modified(func):
     @wraps(func)
-    def wrap(request, *args, **kwargs):
+    def wrapper(request, *args, **kwargs):
         response = func(request, *args, **kwargs)
         response['Last-Modified'] = http_date()
         return response
-    return wrap
+    return wrapper
