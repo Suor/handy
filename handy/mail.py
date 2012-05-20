@@ -15,7 +15,7 @@ def parse_email_data(content):
     headers = {}
 
     for i, line in enumerate(lines):
-        # Кончился заголовок?
+        # Headers read?
         if not line and subject:
             lines = lines[i+1:]
             break

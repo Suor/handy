@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 
 
 def random_str(length=8, letters=string.ascii_letters + string.digits):
-    """Генерирует случайную строку из строчных латинских символов"""
+    """Generates random string of latin characters and digits"""
     return "".join(random.choice(letters) for x in range(length))
 
 

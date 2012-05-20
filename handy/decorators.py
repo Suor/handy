@@ -11,20 +11,23 @@ from django.utils.http import http_date
 
 def template_guess(func):
     template_dir = func.__module__.replace('.views', '').replace('.', '/')
-    return template_dir + '/' + func.__name__ + getattr(settings, 'TEMPLATE_DEFAULT_EXTENSION', '.html')
+    return template_dir + '/' +                                                     \
+           func.__name__ + getattr(settings, 'TEMPLATE_DEFAULT_EXTENSION', '.html')
 
 
 def render_dict(request, output):
-    # Составляем доп. параметры
+    # extracting hook keys
     template = output.pop('TEMPLATE')
     kwargs = dict((k.lower(), output.pop(k)) for k in ('STATUS', 'CONTENT_TYPE') if k in output)
-    # Рендерим шаблон и заворачиваем в ответ
+    # rendering remplate and wrapping it into HttpResponse
     rendered = loader.render_to_string(template, output, RequestContext(request))
     return HttpResponse(rendered, **kwargs)
 
 
 def render_to(template=None):
     """
+    Renders view result to template. Inspired by `@render_to()` decorator
+    from django-annoying package.
     """
     def decorator(func):
         template_default = template or template_guess(func)
