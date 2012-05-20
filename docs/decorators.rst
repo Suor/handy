@@ -69,3 +69,18 @@ View decorators
             return {'success': True, 'data': posts}
 
     For higher order tool see :ref:`ajax`
+
+
+.. function:: @last_modified
+
+    Adds ``Last-Modified`` header with current time to view response.
+    Meaned to be used with ``CommonMiddleware`` and caching to produce
+    ``403 Not Modified`` responses::
+
+        from django.views.decorators.cache import cache_page
+        from handy.decorators import last_modified
+
+        @cache_page(60 * 15)
+        @last_modified
+        def my_view(request):
+            ...
