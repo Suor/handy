@@ -13,3 +13,11 @@ Installation
 ::
 
     pip install handy
+
+
+TODO
+----
+
+- translate comments for widgets and fields
+- write overview
+- docs for db and text utils
