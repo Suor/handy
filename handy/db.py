@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
 from functools import wraps
 import re
 
-from django.conf import settings
 from django.db import transaction
-import db
+from django.conf import settings
 
 
 class MasterSlaveRouter(object):
-    read_from_master = False # Глобальный флаг для переключения чтения на мастер
+    read_from_master = False # A global flag to switch read requests to master
 
-    _replication_sets_re = set(re.compile(s[0]) for s in db.SETS_RE)
+    _replication_sets_re = set(re.compile(s[0]) for s in settings.DATABASE_SETS_RE)
     _cache = set()
     def _is_replicated(self, model):
         table_name = model._meta.db_table
@@ -40,7 +38,8 @@ class MasterSlaveRouter(object):
 
 def read_from_master(func):
     """
-    Декоратор для переключения запросов чтения на мастер (по умолчанию они идут на слейв).
+    Decorator which switches any read db requests done in function to master.
+    Should be used with handy.db.MasterSlaveRouter.
     """
     @wraps(func)
     def wrapper(*args, **kwargs):
