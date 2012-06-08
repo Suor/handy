@@ -66,7 +66,7 @@ View decorators
         @render_to_json()
         def posts_by_tag(request, tag=None):
             posts = Post.object.values().filter(tag=tag)
-            return {'success': True, 'data': posts}
+            return {'success': True, 'data': list(posts)}
 
     For higher order tool see :ref:`ajax`
 

@@ -64,6 +64,7 @@ DstTzInfo.__json__ = lambda self: self.zone
 UTC = pytz.timezone('UTC')
 EPOCH = datetime.datetime(1970,1,1,0,0,0, tzinfo=UTC)
 
+# TODO: add support for querysets and models
 def encode_object(obj):
     if hasattr(obj, '__json__'):
         return obj.__json__()
