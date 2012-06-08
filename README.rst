@@ -83,6 +83,13 @@ And a middleware to make your html output slimmer by stripping out unnecessary s
         'handy.middleware.StripWhitespaceMiddleware',
     )
 
+And more:
+
+- generic master slave database router with a couple of utilities
+- simple logger wrap up
+- ``JSONField``, ``AdditionalAutoField`` and ``BigAutoField``
+- and a couple of text and debugging utilities
+
 
 How you can help
 ----------------
