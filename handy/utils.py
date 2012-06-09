@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from django.utils.importlib import import_module
+
 
 from django.db.models.fields.related import ForeignKey
 ForeignKey.__dump__ = lambda self: 'ForeignKey(%s.%s -> %s.%s)' % (self.model, self.attname, self.rel.to, self.rel.field_name)
