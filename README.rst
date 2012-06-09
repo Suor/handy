@@ -6,7 +6,7 @@ to make your django life easier.
 
 Installation
 -------------
- 
+
 ::
 
     pip install handy
@@ -15,7 +15,7 @@ Installation
 Overview
 --------
 
-Here are quick overview of what you can do with handy. 
+Here are quick overview of what you can do with handy.
 You can also read `full docs <http://handy.readthedocs.org/>`_.
 
 Avoid ``HttpResponse`` and ``render_to_response()`` biolerplate with ``@render_to()`` decorator.
@@ -25,7 +25,7 @@ This one will render result dict to ``'app_name/foo.html'``::
     def foo(request):
         return {
             'bar': Bar.objects.all()
-            # You can easily override default template, content type, 
+            # You can easily override default template, content type,
             # status code and add cookies to response:
             'STATUS': 410,
             'CONTENT_TYPE': 'text/plain'
@@ -69,7 +69,7 @@ fields to store array of values or choices::
     company = Company(phones=['234-5016', '516-2314'], workdays=[1,2,3,4])
     company.save()
 
-In model form ``phones`` field would be represented as ``CommaSeparatedInput`` and 
+In model form ``phones`` field would be represented as ``CommaSeparatedInput`` and
 ``workdays`` as multiple checkboxes::
 
     class CompanyForm(forms.ModelForm):
@@ -80,7 +80,7 @@ And a middleware to make your html output slimmer by stripping out unnecessary s
 
     MIDDLEWARE_CLASSES = (
         ...
-        'handy.middleware.StripWhitespaceMiddleware',
+        'handy.middleware.StripWhitespace',
     )
 
 And more:
