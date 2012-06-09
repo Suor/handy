@@ -36,7 +36,7 @@ Easy JSON responders with ``@render_to_json()`` decorator::
     @render_to_json()
     def posts_by_tag(request, tag=None):
         posts = Post.object.values().filter(tag=tag)
-        return {'success': True, 'data': list(posts)}
+        return list(posts)
 
 And higher order ``@ajax`` decorator to handle more complex asynchronous actions::
 
