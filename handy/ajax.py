@@ -11,6 +11,8 @@ class AjaxException(Exception):
         defaults = {'success': False, 'error': message, 'data': {}}
         self.params = dict(defaults, **kwargs)
 
+    def __json__(self):
+        return self.params
 
 class Ajax(object):
     error = AjaxException
@@ -25,7 +27,9 @@ class Ajax(object):
                 return e.params
         return render_to_json(default=encode_object)(wrapper)
 
-    def catch(self, exception):
+    def catch(self, *exceptions):
+        exceptions = tuple([e for e in exceptions if issubclass(e, Exception)])
+        assert exceptions, 'at least one exception type is required'
         def decorator(func):
             @wraps(func)
             def wrapper(*args, **kwargs):
@@ -33,10 +37,12 @@ class Ajax(object):
                     return func(*args, **kwargs)
                 except self.error:
                     raise
-                except exception, e:
+                except exceptions, exc:
+                    error_name = exc.__class__.__name__
+                    error_text = exc.args[0] if exc.args else ''
                     return {'success': False,
-                            'error': camel_to_underscores(exception.__name__),
-                            'error_text': e.args[0]}
+                            'error': camel_to_underscores(error_name),
+                            'error_text': error_text}
             return wrapper
         return decorator
 
