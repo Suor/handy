@@ -13,12 +13,12 @@ from django.utils import simplejson as json
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
-from handy.forms import CommaSeparatedInput, MultilineInput, MultipleDateTimeWidget
+from handy.forms import CommaSeparatedInput, MultilineInput
 from handy.utils import get_module_attr
 
 
 __all__ = ['AdditionalAutoField', 'AdditionalAutoFieldManager',
-           'BigAutoField', 'IntegerArrayField', 'BigIntegerArrayField', 'MultipleDateTimeField',
+           'BigAutoField', 'IntegerArrayField', 'BigIntegerArrayField',
            'StringArrayField', 'BigIntegerField', 'JSONField']
 
 
