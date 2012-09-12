@@ -20,6 +20,7 @@ Contents:
    widgets
    model_fields
    middleware
+   funcs
 
 .. db
 
