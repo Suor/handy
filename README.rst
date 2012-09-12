@@ -76,6 +76,18 @@ In model form ``phones`` field would be represented as ``CommaSeparatedInput`` a
         class Meta:
             model = Company
 
+A handy ``@cached_property`` utility::
+
+    class UserProfile(models.Model):
+        phones = models.ManyToManyField(Phone)
+
+        ...
+
+        @cached_property
+        def public_phones(self):
+            # this queryset will be constructed only once, thanks to @cached_property
+            return self.phones.filter(public=True)
+
 And a middleware to make your html output slimmer by stripping out unnecessary spaces::
 
     MIDDLEWARE_CLASSES = (
@@ -88,6 +100,7 @@ And more:
 - generic master slave database router with a couple of utilities
 - simple logger wrap up
 - ``JSONField``, ``AdditionalAutoField`` and ``BigAutoField``
+- a ``@memoize`` and ``@cache`` decorators
 - and a couple of text and debugging utilities
 
 
