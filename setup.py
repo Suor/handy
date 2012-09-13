@@ -11,7 +11,7 @@ setup(
     url='http://github.com/Suor/handy',
     license='BSD',
 
-    packages=['handy'],
+    packages=['handy', 'handy.forms', 'handy.models'],
     install_requires=[
         'django>=1.2',
     ],
