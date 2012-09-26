@@ -47,5 +47,9 @@ def cache(timeout):
             cache.pop(args)
         wrapper.invalidate = invalidate
 
+        def invalidate_all():
+            cache.clear()
+        wrapper.invalidate_all = invalidate_all
+
         return wrapper
     return decorator
