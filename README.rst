@@ -103,6 +103,9 @@ And more:
 - a ``@memoize`` and ``@cache`` decorators
 - and a couple of text and debugging utilities
 
+NOTE: functional tools, namely ``@memoize`` and ``@cache``, moved to
+`funcy <https://github.com/Suor/funcy>`_
+
 
 How you can help
 ----------------
