@@ -100,7 +100,6 @@ And more:
 - generic master slave database router with a couple of utilities
 - simple logger wrap up
 - ``JSONField``, ``AdditionalAutoField`` and ``BigAutoField``
-- a ``@memoize`` and ``@cache`` decorators
 - and a couple of text and debugging utilities
 
 NOTE: functional tools, namely ``@memoize`` and ``@cache``, moved to
