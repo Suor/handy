@@ -20,7 +20,8 @@ Contents:
    widgets
    model_fields
    middleware
-   funcs
+
+.. note:: functional tools, namely ``@memoize`` and ``@cache``, moved to `funcy <https://github.com/Suor/funcy>`_
 
 .. db
 

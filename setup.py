@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='handy',
-    version='0.1.2',
+    version='0.1.4',
     author='Alexander Schepanovski',
     author_email='suor.web@gmail.com',
 
@@ -11,7 +11,7 @@ setup(
     url='http://github.com/Suor/handy',
     license='BSD',
 
-    packages=['handy'],
+    packages=['handy', 'handy.forms', 'handy.models'],
     install_requires=[
         'django>=1.2',
     ],
