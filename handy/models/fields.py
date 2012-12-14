@@ -159,6 +159,12 @@ class BigIntegerArrayField(IntegerArrayField):
     def db_type(self, connection):
         return 'bigint[]'
 
+# Fix unicode arrays for postgresql_psycopg2 backend
+try:
+    import psycopg2
+    psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY)
+except ImportError:
+    pass
 
 class StringArrayField(ArrayField):
     description = _("Array of strings")
