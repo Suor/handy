@@ -240,6 +240,26 @@ class JSONField(models.TextField):
 
         return super(JSONField, self).get_prep_value(value)
 
+    def formfield(self, **kwargs):
+        defaults = {
+            'form_class': forms.Field,
+        }
+        defaults.update(kwargs)
+        defaults['widget'] = JSONTextarea
+        return super(JSONField, self).formfield(**defaults)
+
+
+class JSONTextarea(forms.Textarea):
+    def value_from_datadict(self, data, files, name):
+        value = data.get(name, '').strip()
+        if value in ['', None]:
+            return {}
+        return json.loads(value)
+
+    def render(self, name, value, attrs=None):
+        return super(JSONTextarea, self).render(name, json.dumps(value), attrs=attrs)
+
+
 
 class BigIntegerField(models.IntegerField):
     def db_type(self):
