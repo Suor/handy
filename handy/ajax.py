@@ -3,12 +3,13 @@ import re, datetime
 from functools import wraps
 import pytz
 
+from django.http import HttpResponse
 from .decorators import render_to_json
 
 
 class AjaxException(Exception):
-    def __init__(self, message='', **kwargs):
-        defaults = {'success': False, 'error': message, 'data': {}}
+    def __init__(self, error='', **kwargs):
+        defaults = {'success': False, 'error': error, 'data': {}}
         self.params = dict(defaults, **kwargs)
 
 class Ajax(object):
@@ -19,6 +20,8 @@ class Ajax(object):
         def wrapper(request, *args, **kwargs):
             try:
                 data = func(request, *args, **kwargs)
+                if isinstance(data, HttpResponse):
+                    return data
                 return {'success': True, 'data': data}
             except self.error, e:
                 return e.params

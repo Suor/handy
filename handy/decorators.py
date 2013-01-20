@@ -61,7 +61,9 @@ def render_to_json(ensure_ascii=True, default=_json_default):
         @wraps(func)
         def wrapper(*args, **kwargs):
             response = func(*args, **kwargs)
-            if isinstance(response, str):
+            if isinstance(response, HttpResponse):
+                return response
+            elif isinstance(response, str):
                 json_data = response
             else:
                 if settings.DEBUG:
