@@ -1,0 +1,5 @@
+0.1.5
+- JSONTextarea for JSONField
+- pass through HttpResonse under @render_to_json() and @ajax
+- added some data utils
+- fixed unicode bug in StringArrayField
