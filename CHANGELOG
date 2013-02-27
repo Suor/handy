@@ -1,3 +1,8 @@
+0.1.6
+- added javascript revivers
+- fixed datetime handling in @ajax-ed views
+- fixed requirements (Yuri Shikanov)
+
 0.1.5
 - JSONTextarea for JSONField
 - pass through HttpResonse under @render_to_json() and @ajax
