@@ -1,0 +1,4 @@
+Django==1.5
+psycopg2==2.4.6
+pytest==2.3.4
+pytest-django==2.2.0
