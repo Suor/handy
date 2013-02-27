@@ -15,3 +15,7 @@ DATABASES = {
         # 'OPTIONS': {"autocommit": True},
     }
 }
+
+TIME_ZONE = 'Asia/Krasnoyarsk'
+
+SECRET_KEY = 'abc'

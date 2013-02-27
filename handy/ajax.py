@@ -4,6 +4,13 @@ from functools import wraps
 import pytz
 
 from django.http import HttpResponse
+try:
+    from django.utils.timezone import get_default_timezone
+except ImportError:
+    from django.conf import settings
+    _default_timezone = pytz.timezone(settings.TIME_ZONE)
+    get_default_timezone = lambda: _default_timezone
+
 from .decorators import render_to_json
 
 
@@ -74,9 +81,16 @@ def encode_object(obj):
     if hasattr(obj, '__json__'):
         return obj.__json__()
     elif isinstance(obj, datetime.datetime):
-        delta = timezone.to_default(obj) - EPOCH
+        delta = to_default(obj) - EPOCH
         return {'_type': 'date', 'ms': int(delta.total_seconds() * 1000)}
     elif isinstance(obj, datetime.date):
         return datetime.datetime(*obj.timetuple()[:6])
     else:
         raise TypeError('%s is not JSON serializable' % obj.__class__.__name__)
+
+def to_default(dt):
+    if dt.tzinfo is None:
+        return get_default_timezone().localize(dt)
+    else:
+        return dt.astimezone(get_default_timezone())
+
