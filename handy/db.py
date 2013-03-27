@@ -2,7 +2,7 @@
 from functools import wraps
 import re
 
-from django.db import transaction
+from django.db import transaction, connections
 from django.conf import settings
 
 
@@ -61,3 +61,20 @@ def commit_on_success_on(*databases):
             func = transaction.commit_on_success(db)(func)
         return wraps(func)(func)
     return decorator
+
+
+### A couple of low-level utilities
+
+def fetch_all(sql, server='default'):
+    return do_sql(sql, server).fetchall()
+
+def fetch_row(sql, server='default'):
+    return fetchall(sql, server)[0]
+
+def fetch_val(sql, server='default'):
+    return fetchall(sql, server)[0][0]
+
+def do_sql(sql, server='default'):
+    cursor = connections[name].cursor()
+    cursor.execute(sql)
+    return cursor
