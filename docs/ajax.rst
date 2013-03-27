@@ -26,4 +26,11 @@ An example of ajax handler and JSON datasource::
         # sends {"success": true, "data": [{...}, {...}, ...]}
         return Post.object.values().filter(tag=tag)
 
+
+In addition to serialization usual values ``@ajax`` can serialize datetimes, dates and any objects with ``__json__()`` method.
+
+You can use :download:`this JSON reviver <../handy/static/reviver.js>` on client side to deserialize all of these in browser.
+
+
 See also :ref:`@render_to_json() <render_to_json>`
+

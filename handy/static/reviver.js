@@ -1,4 +1,4 @@
-// Microframework for reviving objects serialized by django
+// Microframework for reviving objects serialized by handy
 JSON.revive = function (text) {
     return JSON.parse(text, JSON.reviver);
 };
