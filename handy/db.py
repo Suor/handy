@@ -71,6 +71,9 @@ def fetch_all(sql, server='default'):
 def fetch_row(sql, server='default'):
     return fetchall(sql, server)[0]
 
+def fetch_col(sql, server='default'):
+    return [row[0] for row in fetchall(sql, server)]
+
 def fetch_val(sql, server='default'):
     return fetchall(sql, server)[0][0]
 

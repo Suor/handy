@@ -14,6 +14,11 @@ A couple of low-level utilities for those who tired of manually creating cursors
     Execute given sql and return one row.
 
 
+.. function:: fetch_col(sql, server='default')
+
+    Execute given sql and return list of values in first result column.
+
+
 .. function:: fetch_val(sql, server='default')
 
     Execute given sql and return single resulting value::
