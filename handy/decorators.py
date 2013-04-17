@@ -70,8 +70,7 @@ def render_to_json(ensure_ascii=True, default=_json_default):
                     json_data = json.dumps(response, sort_keys=True, indent=4, ensure_ascii=False, default=default)
                 else:
                     json_data = json.dumps(response, ensure_ascii=ensure_ascii, separators=(',',':'), default=default)
-            return HttpResponse(json_data, content_type='text/plain; charset=utf-8')
-            #return HttpResponse(json_data, mimetype='application/json')
+            return HttpResponse(json_data, mimetype='application/json; charset=utf-8')
         return wrapper
     return decorator
 
