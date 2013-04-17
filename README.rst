@@ -119,4 +119,5 @@ TODO
 - translate comments for model fields
 - docs for db, text and just utils
 - add support for querysets and models in JSON decorators
-- db_fetch(), db_do(), db_tuples() and such primitives
+- consolidate JSON encoding/decoding
+
