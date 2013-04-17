@@ -120,4 +120,4 @@ TODO
 - docs for db, text and just utils
 - add support for querysets and models in JSON decorators
 - consolidate JSON encoding/decoding
-
+- @view_decorator like funcy's @decorator
