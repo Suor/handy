@@ -21,6 +21,8 @@ Contents:
    model_fields
    middleware
    db
+   utils
+
 
 .. note:: functional tools, namely ``@memoize`` and ``@cache``, moved to `funcy <https://github.com/Suor/funcy>`_
 

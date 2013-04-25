@@ -1,4 +1,5 @@
 - added do_sql() and fetch_*() db utilities
+- added get_or_none()
 
 0.1.6
 - added javascript revivers

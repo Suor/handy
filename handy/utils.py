@@ -64,3 +64,10 @@ def cached_property(func):
             setattr(self, attname, func(self))
         return getattr(self, attname)
     return wrapper
+
+
+def get_or_none(cls, **cond):
+    try:
+        return cls.objects.get(**cond)
+    except cls.DoesNotExist:
+        return None
