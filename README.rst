@@ -8,7 +8,7 @@ to make your django life easier.
 Installation
 -------------
 
-.. code:: python
+::
 
     pip install handy
 
