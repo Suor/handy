@@ -4,10 +4,11 @@ Handy
 A collection of different tools, shortcuts, decorators, form and model fields
 to make your django life easier.
 
+
 Installation
 -------------
 
-::
+.. code:: python
 
     pip install handy
 
@@ -19,7 +20,9 @@ Here are quick overview of what you can do with handy.
 You can also read `full docs <http://handy.readthedocs.org/>`_.
 
 Avoid ``HttpResponse`` and ``render_to_response()`` biolerplate with ``@render_to()`` decorator.
-This one will render result dict to ``'app_name/foo.html'``::
+This one will render result dict to ``'app_name/foo.html'``:
+
+.. code:: python
 
     @render_to()
     def foo(request):
@@ -31,14 +34,20 @@ This one will render result dict to ``'app_name/foo.html'``::
             'CONTENT_TYPE': 'text/plain'
         }
 
-Easy JSON responders with ``@render_to_json()`` decorator::
+
+Easy JSON responders with ``@render_to_json()`` decorator:
+
+.. code:: python
 
     @render_to_json()
     def posts_by_tag(request, tag=None):
         posts = Post.object.values().filter(tag=tag)
         return list(posts)
 
-And higher order ``@ajax`` decorator to handle more complex asynchronous actions::
+
+And higher order ``@ajax`` decorator to handle more complex asynchronous actions:
+
+.. code:: python
 
     @ajax
     @ajax.login_required
@@ -53,12 +62,17 @@ And higher order ``@ajax`` decorator to handle more complex asynchronous actions
         post.save()
 
 
-Send emails rendered from templates::
+Send emails rendered from templates:
+
+.. code:: python
 
     render_to_email(article.author.email, 'approved.html', {'article': article})
 
+
 A collection of model fields with accompanying form fields and widgets. Most notably diffrent array
-fields to store array of values or choices::
+fields to store array of values or choices:
+
+.. code:: python
 
     DAYS = zip(range(7), 'Sun Mon Tue Wed Thu Fri Sat'.split())
 
@@ -70,13 +84,18 @@ fields to store array of values or choices::
     company.save()
 
 In model form ``phones`` field would be represented as ``CommaSeparatedInput`` and
-``workdays`` as multiple checkboxes::
+``workdays`` as multiple checkboxes:
+
+.. code:: python
 
     class CompanyForm(forms.ModelForm):
         class Meta:
             model = Company
 
-A handy ``@cached_property`` utility::
+
+A handy ``@cached_property`` utility:
+
+.. code:: python
 
     class UserProfile(models.Model):
         phones = models.ManyToManyField(Phone)
@@ -88,12 +107,16 @@ A handy ``@cached_property`` utility::
             # this queryset will be constructed only once, thanks to @cached_property
             return self.phones.filter(public=True)
 
-And a middleware to make your html output slimmer by stripping out unnecessary spaces::
+
+And a middleware to make your html output slimmer by stripping out unnecessary spaces:
+
+.. code:: python
 
     MIDDLEWARE_CLASSES = (
         ...
         'handy.middleware.StripWhitespace',
     )
+
 
 And more:
 
