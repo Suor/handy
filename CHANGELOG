@@ -1,3 +1,4 @@
+0.1.7
 - added do_sql() and fetch_*() db utilities
 - added get_or_none()
 - fixed @ajax.catch() behaviour
