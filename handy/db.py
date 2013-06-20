@@ -65,19 +65,19 @@ def commit_on_success_on(*databases):
 
 ### A couple of low-level utilities
 
-def fetch_all(sql, server='default'):
-    return do_sql(sql, server).fetchall()
+def fetch_all(sql, params=(), server='default'):
+    return do_sql(sql, params, server).fetchall()
 
-def fetch_row(sql, server='default'):
-    return fetchall(sql, server)[0]
+def fetch_row(sql, params=(), server='default'):
+    return fetch_all(sql, params, server)[0]
 
-def fetch_col(sql, server='default'):
-    return [row[0] for row in fetchall(sql, server)]
+def fetch_col(sql, params=(), server='default'):
+    return [row[0] for row in fetch_all(sql, params, server)]
 
-def fetch_val(sql, server='default'):
-    return fetchall(sql, server)[0][0]
+def fetch_val(sql, params=(), server='default'):
+    return fetch_all(sql, params, server)[0][0]
 
-def do_sql(sql, server='default'):
+def do_sql(sql, params=(), server='default'):
     cursor = connections[name].cursor()
-    cursor.execute(sql)
+    cursor.execute(sql, params)
     return cursor
