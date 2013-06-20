@@ -44,11 +44,9 @@ class Ajax(object):
                 except self.error:
                     raise
                 except exceptions, e:
-                    error_name = e.__class__.__name__
+                    error_name = camel_to_underscores(e.__class__.__name__)
                     error_text = e.args[0] if e.args else ''
-                    return {'success': False,
-                            'error': camel_to_underscores(error_name),
-                            'error_text': error_text}
+                    raise self.error(error_name, error_text=error_text)
             return wrapper
         return decorator
 
