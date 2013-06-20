@@ -1,5 +1,6 @@
-0.1.8
 - support params argument in low level db utilities
+Backward incompatible changes:
+- fetch_row() and fetch_val() will now return None when no rows or cols returned
 
 0.1.7
 - added do_sql() and fetch_*() db utilities

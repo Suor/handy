@@ -69,15 +69,19 @@ def fetch_all(sql, params=(), server='default'):
     return do_sql(sql, params, server).fetchall()
 
 def fetch_row(sql, params=(), server='default'):
-    return fetch_all(sql, params, server)[0]
+    return first(fetch_all(sql, params, server))
 
 def fetch_col(sql, params=(), server='default'):
     return [row[0] for row in fetch_all(sql, params, server)]
 
 def fetch_val(sql, params=(), server='default'):
-    return fetch_all(sql, params, server)[0][0]
+    return first(fetch_row(sql, params, server))
 
 def do_sql(sql, params=(), server='default'):
     cursor = connections[name].cursor()
     cursor.execute(sql, params)
     return cursor
+
+
+def first(seq):
+    return next(seq, None)
