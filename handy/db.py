@@ -63,6 +63,39 @@ def commit_on_success_on(*databases):
     return decorator
 
 
+def queryset_iterator(queryset, chunksize=1000):
+    """
+    Iterate over a Django Queryset ordered by the primary key
+
+    This method loads a maximum of chunksize (default: 1000) rows in it's
+    memory at the same time while django normally would load all rows in it's
+    memory. Using the iterator() method only causes it to not preload all the
+    classes.
+
+    Note that the implementation of the iterator does not support ordered query sets.
+    """
+    pk = 0
+    try:
+        last_pk = queryset.order_by('-pk')[0].pk
+    except IndexError:
+        raise StopIteration
+    queryset = queryset.order_by('pk')
+    while pk < last_pk:
+        for row in queryset.filter(pk__gt=pk)[:chunksize].iterator():
+            pk = row.pk
+            yield row
+
+def queryset_chunks(queryset, chunksize=1000):
+    pk = 0
+    while True:
+        chunk = list(queryset.order_by('pk').filter(pk__gt=pk)[:chunksize])
+        if chunk:
+            pk = chunk[-1].pk
+            yield chunk
+        else:
+            break
+
+
 ### A couple of low-level utilities
 
 def fetch_all(sql, params=(), server='default'):

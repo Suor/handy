@@ -1,3 +1,4 @@
+- added queryset_iterator() and queryset_chunks()
 - support params argument in low level db utilities
 Backward incompatible changes:
 - fetch_row() and fetch_val() will now return None when no rows or cols returned
