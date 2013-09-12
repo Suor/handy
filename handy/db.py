@@ -52,7 +52,7 @@ def fetch_val(sql, params=(), server='default'):
     return first(fetch_row(sql, params, server))
 
 def do_sql(sql, params=(), server='default'):
-    cursor = connections[name].cursor()
+    cursor = connections[server].cursor()
     cursor.execute(sql, params)
     return cursor
 
