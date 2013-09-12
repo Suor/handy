@@ -14,7 +14,7 @@ setup(
     packages=['handy', 'handy.forms', 'handy.models'],
     install_requires=[
         'django>=1.2',
-        'pytz==2012j',
+        'pytz>=2012j',
     ],
 
     classifiers=[
