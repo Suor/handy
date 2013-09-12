@@ -30,3 +30,19 @@ A couple of low-level utilities for those who tired of manually creating cursors
 
     Execute given sql with given params.
 
+
+
+.. function:: queryset_iterator(queryset, chunksize=1000)
+
+    Iterate over a Django Queryset ordered by the primary key.
+
+    This method loads a maximum of chunksize (default: 1000) rows in it's
+    memory at the same time while django normally would load all rows in it's
+    memory. It also bypasses django queryset cache.
+
+    Note that ordered querysets not supported.
+
+
+.. function:: queryset_chunks(queryset, chunksize=1000)
+
+    Returns iterator yielding chunks of django queryset. Takes care not to load everything at once.
