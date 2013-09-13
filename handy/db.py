@@ -58,4 +58,4 @@ def do_sql(sql, params=(), server='default'):
 
 
 def first(seq):
-    return next(seq, None)
+    return next(iter(seq), None)
