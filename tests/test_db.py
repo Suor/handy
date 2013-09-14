@@ -10,14 +10,18 @@ def pytestmark(func):
 
 @pytest.fixture(scope='module')
 def test_table():
+    # NOTE: We wrap that into transaction because in other case django will gobble it up
+    #       into single transaction with first test and then rollback everything happily on
+    #       that tests end.
     do_sql('''
         begin;
+
         create table test (
             id int primary key,
             tag int not null
         );
-
         insert into test values (1, 10), (2, 20);
+
         commit;
     ''')
 
