@@ -37,3 +37,10 @@ def test_fetch_row():
 
 def test_fetch_all():
     assert fetch_all('select * from test order by id') == [(1, 10), (2, 20)]
+
+
+def test_fetch_non_existent_row():
+    assert fetch_row('select * from test where id < 0') is None
+
+def test_fetch_non_existent_val():
+    assert fetch_val('select tag from test where id < 0') is None

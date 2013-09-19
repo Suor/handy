@@ -43,13 +43,13 @@ def fetch_all(sql, params=(), server='default'):
     return do_sql(sql, params, server).fetchall()
 
 def fetch_row(sql, params=(), server='default'):
-    return first(fetch_all(sql, params, server))
+    return silent_first(fetch_all(sql, params, server))
 
 def fetch_col(sql, params=(), server='default'):
     return [row[0] for row in fetch_all(sql, params, server)]
 
 def fetch_val(sql, params=(), server='default'):
-    return first(fetch_row(sql, params, server))
+    return silent_first(fetch_row(sql, params, server))
 
 def do_sql(sql, params=(), server='default'):
     cursor = connections[server].cursor()
@@ -57,5 +57,8 @@ def do_sql(sql, params=(), server='default'):
     return cursor
 
 
-def first(seq):
-    return next(iter(seq), None)
+def silent_first(seq):
+    try:
+        return seq[0]
+    except (IndexError, TypeError):
+        return None
