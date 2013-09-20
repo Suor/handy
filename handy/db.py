@@ -43,7 +43,7 @@ def fetch_all(sql, params=(), server='default'):
     return do_sql(sql, params, server).fetchall()
 
 def fetch_row(sql, params=(), server='default'):
-    return silent_first(fetch_all(sql, params, server))
+    return do_sql(sql, params, server).fetchone()
 
 def fetch_col(sql, params=(), server='default'):
     return [row[0] for row in fetch_all(sql, params, server)]
