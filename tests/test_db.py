@@ -1,6 +1,6 @@
 import pytest
 
-from handy.db import do_sql, fetch_all, fetch_row, fetch_col, fetch_val
+from handy.db import *
 
 
 def pytestmark(func):
@@ -44,3 +44,15 @@ def test_fetch_non_existent_row():
 
 def test_fetch_non_existent_val():
     assert fetch_val('select tag from test where id < 0') is None
+
+
+def test_fetch_named():
+    rows = fetch_named('select * from test order by id')
+    assert len(rows) == 2
+    assert rows[0].id == 1 and rows[0].tag == 10
+    assert rows[1].id == 2 and rows[1].tag == 20
+
+def test_fetch_named_row():
+    row = fetch_named_row('select * from test where id = 1')
+    assert row == (1, 10)
+    assert row.id == 1 and row.tag == 10

@@ -1,7 +1,15 @@
 # -*- coding: utf-8 -*-
 from functools import wraps
+from operator import itemgetter
+from collections import namedtuple
 
 from django.db import transaction, connections
+
+
+__all__ = ('commit_on_success_on',
+           'queryset_iterator', 'queryset_chunks',
+           'fetch_all', 'fetch_row', 'fetch_col', 'fetch_val', 'do_sql',
+           'fetch_named', 'fetch_named_row')
 
 
 def commit_on_success_on(*databases):
@@ -57,8 +65,24 @@ def do_sql(sql, params=(), server='default'):
     return cursor
 
 
+def fetch_named(sql, params=(), server='default'):
+    cursor = do_sql(sql, params, server)
+    rec_class = _row_namedtuple(cursor)
+    return map(rec_class._make, cursor.fetchall())
+
+def fetch_named_row(sql, params=(), server='default'):
+    cursor = do_sql(sql, params, server)
+    rec_class = _row_namedtuple(cursor)
+    return rec_class._make(cursor.fetchone())
+
+def _row_namedtuple(cursor):
+    field_names = map(itemgetter(0), cursor.description)
+    return namedtuple('TableRow', field_names)
+
+
 def silent_first(seq):
     try:
         return seq[0]
     except (IndexError, TypeError):
         return None
+

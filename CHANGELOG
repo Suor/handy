@@ -1,3 +1,4 @@
+- added fetch_named() and fetch_named_row() db utilities
 - fixed fetch_row() and fetch_val()
 
 0.2.1

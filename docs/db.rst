@@ -32,6 +32,16 @@ A couple of low-level utilities for those who tired of manually creating cursors
 
 
 
+.. function:: fetch_named(sql, params=(), server='default')
+
+    Same as :func:`fetch_all`, but returns :func:`namedtuples <collections.namedtuple>`.
+
+
+.. function:: fetch_named_row(sql, params=(), server='default')
+
+    Same as :func:`fetch_row`, but returns :func:`namedtuple <collections.namedtuple>`.
+
+
 .. function:: queryset_iterator(queryset, chunksize=1000)
 
     Iterate over a Django Queryset ordered by the primary key.
