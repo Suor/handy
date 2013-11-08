@@ -108,6 +108,16 @@ A handy ``@cached_property`` utility:
             return self.phones.filter(public=True)
 
 
+A bunch of database querying utilities to not tinker with ``cursor()`` anymore:
+
+.. code:: python
+
+    best_offer = fetch_val('select max(value) from offers where ...')
+
+    for row in fetch_named('select * from blog_post'):
+        print row.id, row.title
+
+
 And a middleware to make your html output slimmer by stripping out unnecessary spaces:
 
 .. code:: python
@@ -120,10 +130,10 @@ And a middleware to make your html output slimmer by stripping out unnecessary s
 
 And more:
 
-- generic master slave database router with a couple of utilities
 - simple logger wrap up
+- ``CommaSeparatedInput`` and ``MultilineInput`` widgets for array fields
 - ``JSONField``, ``AdditionalAutoField`` and ``BigAutoField``
-- and a couple of text and debugging utilities
+- and a bunch of database, email, text and debugging utilities
 
 NOTE: functional tools, namely ``@memoize`` and ``@cache``, moved to
 `funcy <https://github.com/Suor/funcy>`_
