@@ -2,6 +2,7 @@
 from functools import wraps
 from operator import itemgetter
 from collections import namedtuple
+from contextlib import closing, contextmanager
 
 from django.db import transaction, connections
 
@@ -48,10 +49,12 @@ def queryset_chunks(queryset, chunksize=1000):
 ### A couple of low-level utilities
 
 def fetch_all(sql, params=(), server='default'):
-    return do_sql(sql, params, server).fetchall()
+    with db_execute(sql, params, server) as cursor:
+        return cursor.fetchall()
 
 def fetch_row(sql, params=(), server='default'):
-    return do_sql(sql, params, server).fetchone()
+    with db_execute(sql, params, server) as cursor:
+        return cursor.fetchone()
 
 def fetch_col(sql, params=(), server='default'):
     return [row[0] for row in fetch_all(sql, params, server)]
@@ -60,20 +63,26 @@ def fetch_val(sql, params=(), server='default'):
     return silent_first(fetch_row(sql, params, server))
 
 def do_sql(sql, params=(), server='default'):
-    cursor = connections[server].cursor()
-    cursor.execute(sql, params)
-    return cursor
+    with db_execute(sql, params, server) as _:
+        pass
+
+# A low level cursor access context manager
+@contextmanager
+def db_execute(sql, params=(), server='default'):
+    with closing(connections[server].cursor()) as cursor:
+        cursor.execute(sql, params)
+        yield cursor
 
 
 def fetch_named(sql, params=(), server='default'):
-    cursor = do_sql(sql, params, server)
-    rec_class = _row_namedtuple(cursor)
-    return map(rec_class._make, cursor.fetchall())
+    with db_execute(sql, params, server) as cursor:
+        rec_class = _row_namedtuple(cursor)
+        return map(rec_class._make, cursor.fetchall())
 
 def fetch_named_row(sql, params=(), server='default'):
-    cursor = do_sql(sql, params, server)
-    rec_class = _row_namedtuple(cursor)
-    return rec_class._make(cursor.fetchone())
+    with db_execute(sql, params, server) as cursor:
+        rec_class = _row_namedtuple(cursor)
+        return rec_class._make(cursor.fetchone())
 
 def _row_namedtuple(cursor):
     field_names = map(itemgetter(0), cursor.description)

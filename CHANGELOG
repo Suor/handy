@@ -1,3 +1,5 @@
+- close cursor in db utilities
+
 0.2.2
 - added fetch_named() and fetch_named_row() db utilities
 - fixed fetch_row() and fetch_val()
