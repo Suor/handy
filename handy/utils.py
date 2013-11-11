@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from functools import wraps
 from django.utils.importlib import import_module
 
 
