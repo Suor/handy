@@ -1,4 +1,6 @@
 - close cursor in db utilities
+- fixed @cached_property (hackprime),
+  though one should use one from funcy for better future compatability
 
 0.2.2
 - added fetch_named() and fetch_named_row() db utilities
