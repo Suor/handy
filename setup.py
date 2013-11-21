@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='handy',
-    version='0.2.2',
+    version='0.2.3',
     author='Alexander Schepanovski',
     author_email='suor.web@gmail.com',
 
@@ -18,7 +18,7 @@ setup(
     ],
 
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',

@@ -1,3 +1,4 @@
+0.2.3
 - close cursor in db utilities
 - fixed @cached_property (hackprime),
   though one should use one from funcy for better future compatability
