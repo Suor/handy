@@ -69,15 +69,14 @@ Send emails rendered from templates:
     render_to_email(article.author.email, 'approved.html', {'article': article})
 
 
-A collection of model fields with accompanying form fields and widgets. Most notably diffrent array
-fields to store array of values or choices:
+A collection of model fields with accompanying form fields and widgets. Most notably different array fields to store array of values or choices:
 
 .. code:: python
 
     DAYS = zip(range(7), 'Sun Mon Tue Wed Thu Fri Sat'.split())
 
     class Company(models.Model):
-        phones = StringArrayField('Phone numbers', blank=True, default='{}')
+        phones = StringArrayField('Phone numbers', blank=True, default=lambda: [])
         workdays = IntegerArrayField('Work days', choices=DAYS)
 
     company = Company(phones=['234-5016', '516-2314'], workdays=[1,2,3,4])
