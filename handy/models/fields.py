@@ -106,6 +106,9 @@ class TypedMultipleChoiceField(TypedMultipleField, forms.MultipleChoiceField):
 
 
 class ArrayField(models.Field):
+    def value_to_string(self, obj):
+        return self.get_prep_value(self._get_val_from_obj(obj))
+
     def validate(self, value, model_instance):
         # Это по-большей части скопировано с Field.validate
         # К сожалению приходится копипастить т.к. там неправильно проверяется
@@ -153,6 +156,18 @@ class IntegerArrayField(ArrayField):
 
     def db_type(self, connection):
         return 'int[]'
+
+    def to_python(self, value):
+        if value == '{}':
+            return []
+
+        if isinstance(value, (str, unicode)):
+            return map(self.coerce, value[1:-1].split(','))
+
+        return value
+
+    def get_prep_value(self, value):
+        return '{%s}' % ','.join(map(str, value))
 
 
 class BigIntegerArrayField(IntegerArrayField):
