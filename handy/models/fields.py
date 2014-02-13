@@ -9,10 +9,10 @@ from django.db import models
 from django import forms
 from django.core import exceptions, validators
 from django.utils.text import capfirst
-from django.utils import simplejson as json
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
+from handy.cross import json
 from handy.forms import CommaSeparatedInput, MultilineInput
 from handy.utils import get_module_attr
 
