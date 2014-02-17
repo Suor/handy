@@ -1,3 +1,4 @@
+0.2.4
 - support serialization of IntegerArrayField and BigIntegerArrayField
 - don't use django.utils.simplejson in Django 1.5 since it's deprecated
 
