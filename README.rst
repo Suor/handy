@@ -148,7 +148,6 @@ How you can help
 TODO
 ----
 
-- translate comments for model fields
 - consolidate JSON encoding/decoding
 - docs for text and just utils
 - add support for querysets and models in JSON decorators

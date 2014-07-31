@@ -24,10 +24,11 @@ __all__ = ['AdditionalAutoField', 'AdditionalAutoFieldManager',
 
 class AdditionalAutoField(models.Field):
     """
-    Дополнительный AutoField делает ещё одно auto поле не являющееся primary key
-    Не поддерживается всеми бэкендами! viva la PostgreSQL :)
+    Additional AutoField enables you to use automatically filled but not a primary key field.
+    NOTE: Doesn't work with all backends! Tested against PostgreSQL.
 
-    Требуется использовать AdditionalAutoFieldManager в качестве базового менеджера, чтобы null не пропускались в базу:
+    Needs to be used in conjunction with AdditionalAutoFieldManager:
+
         class MyModel(models.Model):
             _base_manager = AdditionalAutoFieldManager()
     """
@@ -66,8 +67,9 @@ class AdditionalAutoField(models.Field):
 
 class AdditionalAutoFieldManager(models.Manager):
     def _insert(self, values, **kwargs):
-        # Значение по умолчанию выставлется базой
-        values = [v for v in values if v[1] is not None or not isinstance(v[0], AdditionalAutoField)]
+        # A default value should be set up by database
+        values = [v for v in values
+                    if v[1] is not None or not isinstance(v[0], AdditionalAutoField)]
         return super(AdditionalAutoFieldManager, self)._insert(values, **kwargs)
 
 
@@ -79,7 +81,7 @@ class BigAutoField(models.AutoField):
     def db_type(self, connection):
         return 'bigint' if self.external_sequence else 'bigserial'
 
-    # Использует патч ForeignKey
+    # Use ForeignKey patch
     def rel_db_type(self, connection):
         return 'bigint'
 
@@ -110,9 +112,8 @@ class ArrayField(models.Field):
         return self.get_prep_value(self._get_val_from_obj(obj))
 
     def validate(self, value, model_instance):
-        # Это по-большей части скопировано с Field.validate
-        # К сожалению приходится копипастить т.к. там неправильно проверяется
-        # принадлежность к choices для многозначных полей
+        # This is mostly copied from Field.validate().
+        # Unforturnately Field.validate() doesn't handle choices right for multivalue fields.
         if not self.editable:
             return
 
@@ -126,7 +127,7 @@ class ArrayField(models.Field):
 
     def formfield(self, **kwargs):
         if self.choices:
-            # Тоже скопипащено из Field.formfield
+            # Also copy-pasted from Field.formfield
             defaults = {
                 'choices': self.choices,
                 'coerce': self.coerce,
@@ -193,7 +194,7 @@ class StringArrayField(ArrayField):
         return 'varchar(%s)[]' % self.max_length
 
 
-# Функции для кодирования/декодирования объектов в json
+# Utility functions to code/decode objects to/from JSON
 def default_decode((cls, data)):
     cls = get_module_attr(cls)
     obj = cls.__new__(cls)
@@ -250,7 +251,6 @@ class JSONField(models.TextField):
         if value == "" or value is None:
             return None
 
-        #if isinstance(value, dict):
         value = json.dumps(value, default=encode_object, ensure_ascii=False, separators=(',',':'))
 
         return super(JSONField, self).get_prep_value(value)
@@ -278,7 +278,7 @@ class JSONTextarea(forms.Textarea):
 
 class BigIntegerField(models.IntegerField):
     def db_type(self):
-        # только для mysql и postgres
+        # Only for MySQL and PostgreSQL
         return "bigint"
 
     def get_internal_type(self):
@@ -294,7 +294,6 @@ class BigIntegerField(models.IntegerField):
                 _("This value must be a long integer."))
 
 
-# Прописываем правила для South, пустые так как новых, неунаследованных атрибутов у нас нет
 try:
     from south.modelsinspector import add_introspection_rules
     rules = [
