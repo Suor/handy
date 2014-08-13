@@ -16,6 +16,7 @@ def test_table():
     do_sql('''
         begin;
 
+        drop table if exists test;
         create table test (
             id int primary key,
             tag int not null
