@@ -19,7 +19,7 @@ from handy.utils import get_module_attr
 
 __all__ = ['AdditionalAutoField', 'AdditionalAutoFieldManager',
            'BigAutoField', 'IntegerArrayField', 'BigIntegerArrayField',
-           'StringArrayField', 'BigIntegerField', 'JSONField']
+           'StringArrayField', 'BigIntegerField', 'JSONField', 'PickleField']
 
 
 class AdditionalAutoField(models.Field):
@@ -274,6 +274,34 @@ class JSONTextarea(forms.Textarea):
     def render(self, name, value, attrs=None):
         return super(JSONTextarea, self).render(name, json.dumps(value), attrs=attrs)
 
+
+
+class PickleField(models.TextField):
+    """
+    PickleField is a generic textfield that neatly serializes/unserializes
+    any python objects seamlessly"""
+    __metaclass__ = models.SubfieldBase
+
+    def to_python(self, value):
+        """Convert our string value to JSON after we load it from the DB"""
+        if value == "":
+            return None
+
+        try:
+            if isinstance(value, basestring):
+                return pickle.loads(str(value))
+        except ValueError:
+            pass
+
+        return value
+
+    def get_prep_value(self, value):
+        """Convert our JSON object to a string before we save"""
+        if value == "" or value is None:
+            return None
+
+        value = pickle.dumps(value)
+        return super(PickleField, self).get_prep_value(value)
 
 
 class BigIntegerField(models.IntegerField):

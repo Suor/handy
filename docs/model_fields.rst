@@ -33,6 +33,11 @@ Here come some custom model fields mostly designed to work with PostgreSQL.
     A field for storing arbitrary jsonifyable data.
 
 
+.. class:: PickleField
+
+    A field for storing arbitrary picklable data.
+
+
 .. class:: AdditionalAutoField
 
     Additional autoincremented field which is not primary key.
