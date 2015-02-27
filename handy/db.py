@@ -10,6 +10,7 @@ from django.db import transaction, connections
 __all__ = ('commit_on_success_on',
            'queryset_iterator', 'queryset_chunks',
            'fetch_all', 'fetch_row', 'fetch_col', 'fetch_val', 'do_sql',
+           'fetch_dicts', 'fetch_dict',
            'fetch_named', 'fetch_named_row')
 
 
@@ -74,6 +75,17 @@ def db_execute(sql, params=(), server='default'):
         yield cursor
 
 
+def fetch_dicts(sql, params=(), server='default'):
+    with db_execute(sql, params, server) as cursor:
+        field_names = _field_names(cursor)
+        return [dict(zip(field_names, row)) for row in cursor.fetchall()]
+
+def fetch_dict(sql, params=(), server='default'):
+    with db_execute(sql, params, server) as cursor:
+        field_names = _field_names(cursor)
+        return dict(zip(field_names, cursor.fetchone()))
+
+
 def fetch_named(sql, params=(), server='default'):
     with db_execute(sql, params, server) as cursor:
         rec_class = _row_namedtuple(cursor)
@@ -84,9 +96,12 @@ def fetch_named_row(sql, params=(), server='default'):
         rec_class = _row_namedtuple(cursor)
         return rec_class._make(cursor.fetchone())
 
+
 def _row_namedtuple(cursor):
-    field_names = map(itemgetter(0), cursor.description)
-    return namedtuple('TableRow', field_names)
+    return namedtuple('TableRow', _field_names(cursor))
+
+def _field_names(cursor):
+    return map(itemgetter(0), cursor.description)
 
 
 def silent_first(seq):

@@ -47,6 +47,15 @@ def test_fetch_non_existent_val():
     assert fetch_val('select tag from test where id < 0') is None
 
 
+def test_fetch_dicts():
+    rows = fetch_dicts('select * from test order by id')
+    assert rows == [{'id': 1, 'tag': 10}, {'id': 2, 'tag': 20}]
+
+def test_fetch_dict():
+    row = fetch_dict('select * from test where id = 1')
+    assert row == {'id': 1, 'tag': 10}
+
+
 def test_fetch_named():
     rows = fetch_named('select * from test order by id')
     assert len(rows) == 2

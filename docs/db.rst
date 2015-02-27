@@ -32,6 +32,16 @@ A couple of low-level utilities for those who tired of manually creating cursors
 
 
 
+.. function:: fetch_dicts(sql, params=(), server='default')
+
+    Same as :func:`fetch_all`, but returns results as dicts.
+
+
+.. function:: fetch_dict(sql, params=(), server='default')
+
+    Same as :func:`fetch_row`, but returns result as dict.
+
+
 .. function:: fetch_named(sql, params=(), server='default')
 
     Same as :func:`fetch_all`, but returns :func:`namedtuples <collections.namedtuple>`.
