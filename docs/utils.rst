@@ -9,5 +9,3 @@ Utilities
 .. function:: obj_dump(obj)
 
 .. function:: get_module_attr(path)
-
-.. decorator:: @cached_property
