@@ -1,7 +1,7 @@
 View decorators
 ===============
 
-.. function:: @render_to([template])
+.. decorator:: render_to([template])
 
     Decorator for Django views that sends returned dict to ``render_to_response()`` function.
     If ``template`` is not specified then it is guessed from module and view names.
@@ -37,7 +37,7 @@ View decorators
 
 
 .. _render_to_json:
-.. function:: @render_to_json(ensure_ascii=True, default=_json_default)
+.. decorator:: render_to_json(ensure_ascii=True, default=_json_default)
 
     Serializes view result to json and wraps into ``HttpResponse``. Arguments are forwarded to
     ``json.dumps()``.
@@ -71,7 +71,7 @@ View decorators
     For higher order tool see :ref:`ajax`
 
 
-.. function:: @last_modified
+.. decorator:: last_modified
 
     Adds ``Last-Modified`` header with current time to view response.
     Meaned to be used with ``CommonMiddleware`` and caching to produce
