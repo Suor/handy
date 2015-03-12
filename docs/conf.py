@@ -27,7 +27,10 @@ import sys, os
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.coverage', 'sphinx.ext.intersphinx']
 
-intersphinx_mapping = {'python': ('http://docs.python.org/2', None)}
+intersphinx_mapping = {
+    'python': ('http://docs.python.org/2', None),
+    'django': ('http://django.readthedocs.org/en/latest/', None),
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
