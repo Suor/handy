@@ -12,3 +12,5 @@ Shortcuts
             items = Item.objects.filter(...)
             page = paginate(request, items, 10)
             # ...
+
+    See also :ref:`@paginate() <paginate_decorator>` decorator.

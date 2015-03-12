@@ -4,7 +4,8 @@ from datetime import datetime
 
 from django.conf import settings
 from django.template import loader, RequestContext
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
+from django.db.models import QuerySet
 from django.utils.http import http_date
 
 from handy.cross import json
@@ -83,3 +84,33 @@ def last_modified(func):
         response['Last-Modified'] = http_date()
         return response
     return wrapper
+
+
+from .shortcuts import paginate as _paginate
+
+def paginate(name, ipp, *extra):
+    # Also work as shortcut
+    if isinstance(name, HttpRequest):
+        return _paginate(name, ipp, *extra)
+    assert not extra, "There should be exactly 2 arguments for @paginate"
+
+    def decorator(func):
+        @wraps(func)
+        def wrapper(request, *args, **kwargs):
+            output = func(request, *args, **kwargs)
+            if not isinstance(output, dict):
+                return output
+
+            if sequence_like(output[name]):
+                output[name] = _paginate(request, output[name], ipp)
+                if 'page' not in output:
+                    output['page'] = output[name]
+
+            return output
+
+        return wrapper
+    return decorator
+
+def sequence_like(seq):
+    cls = seq.__class__
+    return hasattr(cls, '__getitem__') and (hasattr(cls, 'count') or hasattr(cls, '__len__'))

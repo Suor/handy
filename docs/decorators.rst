@@ -36,6 +36,54 @@ View decorators
                                       context_instance=RequestContext(request))
 
 
+.. _paginate_decorator:
+.. decorator:: paginate(name, ipp)
+
+    Paginates any queryset or sequence value returned in ``name`` key in response dict. Also, populates ``page`` key in response dict if not already used. It passes through if result is not ``HttpResponse`` or value is not a sequence, so you can return redirects and ``None``
+    conveniently::
+
+        from handy.decorators import render_to, paginate
+
+        @render_to()
+        @paginate('series', 10)
+        def search(request):
+            q = request.GET.get('q')
+            return {
+                'columns': get_series_columns(),
+                'series': search_series_qs(q) if q else None,
+            }
+
+    Here is a Bootstrap and jinja2 snippet for pagination (just drop all the parentheses to convert it to django):
+
+    .. code-block:: jinja
+
+        {% if page and page.has_other_pages() %}
+        <nav>
+          <ul class="pagination">
+            {% if page.has_previous() %}
+            <li>
+              <a href="?p={{ page.previous_page_number() }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            {% endif %}
+            {% for p in page.paginator.page_range %}
+              <li{% if p == page.number %} class="active"{% endif %}>
+                <a href="?p={{ p }}">{{ p }}</a>
+              </li>
+            {% endfor %}
+            {% if page.has_next() %}
+            <li>
+              <a href="/?p={{ page.next_page_number() }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+
+
 .. _render_to_json:
 .. decorator:: render_to_json(ensure_ascii=True, default=_json_default)
 
