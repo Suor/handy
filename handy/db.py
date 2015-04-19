@@ -89,7 +89,7 @@ def fetch_dict(sql, params=(), server='default'):
 def fetch_named(sql, params=(), server='default'):
     with db_execute(sql, params, server) as cursor:
         rec_class = _row_namedtuple(cursor)
-        return map(rec_class._make, cursor.fetchall())
+        return [rec_class._make(row) for row in cursor.fetchall()]
 
 def fetch_named_row(sql, params=(), server='default'):
     with db_execute(sql, params, server) as cursor:
@@ -101,7 +101,7 @@ def _row_namedtuple(cursor):
     return namedtuple('TableRow', _field_names(cursor))
 
 def _field_names(cursor):
-    return map(itemgetter(0), cursor.description)
+    return [name[0] for name in cursor.description]
 
 
 def silent_first(seq):

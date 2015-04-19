@@ -52,7 +52,7 @@ def get_module_attr(path):
     try:
         mod = import_module(module)
         return getattr(mod, attr, None)
-    except ImportError, e:
+    except ImportError as e:
         return None
 
 

@@ -30,7 +30,7 @@ class Ajax(object):
                 if isinstance(data, HttpResponse):
                     return data
                 return {'success': True, 'data': data}
-            except self.error, e:
+            except self.error as e:
                 return e.params
         return render_to_json(default=encode_object)(wrapper)
 
@@ -43,7 +43,7 @@ class Ajax(object):
                     return func(*args, **kwargs)
                 except self.error:
                     raise
-                except exceptions, e:
+                except exceptions as e:
                     error_name = camel_to_underscores(e.__class__.__name__)
                     error_text = e.args[0] if e.args else ''
                     raise self.error(error_name, error_text=error_text)
