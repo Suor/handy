@@ -21,7 +21,7 @@ def raw_pipeline(domain, pages, max_out_bound=4, method='GET', timeout=None, deb
                 break
             elif page and not finished[i] and respobjs[i] is None:
                 if debuglevel > 0:
-                    print 'Sending request for %r...' % (page,)
+                    print('Sending request for %r...' % (page,))
                 conn._HTTPConnection__state = _CS_IDLE # FU private variable!
                 conn.request(method, page, None, headers)
                 respobjs[i] = conn.response_class(conn.sock, strict=conn.strict, method=conn._method)
@@ -32,12 +32,12 @@ def raw_pipeline(domain, pages, max_out_bound=4, method='GET', timeout=None, deb
             if resp is None:
                 continue
             if debuglevel > 0:
-                print 'Retrieving %r...' % (pages[i],)
+                print('Retrieving %r...' % (pages[i],))
             out_bound -= 1
             skip_read = False
             resp.begin()
             if debuglevel > 0:
-                print '    %d %s' % (resp.status, resp.reason)
+                print('    %d %s' % (resp.status, resp.reason))
             if 200 <= resp.status < 300:
                 # Ok
                 data[i] = resp.read()
@@ -64,7 +64,7 @@ def raw_pipeline(domain, pages, max_out_bound=4, method='GET', timeout=None, deb
                 else:
                     path = urlparse.urlunparse(parsed._replace(scheme='',netloc='',fragment=''))
                     if debuglevel > 0:
-                        print '  Updated %r to %r' % (pages[i],path)
+                        print('  Updated %r to %r' % (pages[i],path))
                     pages[i] = path
             elif resp.status >= 400:
                 # Failed
@@ -76,11 +76,11 @@ def raw_pipeline(domain, pages, max_out_bound=4, method='GET', timeout=None, deb
                 # Connection (will be) closed, need to resend
                 conn.close()
                 if debuglevel > 0:
-                    print '  Connection closed'
+                    print('  Connection closed')
                 for j, f in enumerate(finished):
                     if not f and respobjs[j] is not None:
                         if debuglevel > 0:
-                            print '  Discarding out-bound request for %r' % (pages[j],)
+                            print('  Discarding out-bound request for %r' % (pages[j],))
                         respobjs[j] = None
                 break
             elif not skip_read:
@@ -149,6 +149,6 @@ if __name__ == '__main__':
     pages = ('/wiki/HTTP_pipelining', '/wiki/HTTP', '/wiki/HTTP_persistent_connection')
     data = raw_pipeline(domain, pages, debuglevel=1, method='HEAD', max_out_bound=6, timeout=1)
     for i,page in enumerate(data):
-        print
-        print '==== Page %r ====' % (pages[i],)
+        print()
+        print('==== Page %r ====' % (pages[i],))
         #print page[:512]

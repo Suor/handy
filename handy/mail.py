@@ -69,10 +69,10 @@ def render_to_email(email, template_name, data=None, request=None, from_email=No
         pass
 
     if settings.DEBUG:
-        print u'To: %s' % ', '.join(message.to)
-        print u'From: %s' % message.from_email
-        print u'Subject: %s' % message.subject
-        print message.body
+        print(u'To: %s' % ', '.join(message.to))
+        print(u'From: %s' % message.from_email)
+        print(u'Subject: %s' % message.subject)
+        print(message.body)
 
 
 def mail_admins(subject, message='', trace=True):

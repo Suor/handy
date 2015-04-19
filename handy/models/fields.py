@@ -16,6 +16,11 @@ from handy.cross import json
 from handy.forms import CommaSeparatedInput, MultilineInput
 from handy.utils import get_module_attr
 
+try:
+    unicode
+except NameError: # py3
+    unicode = str
+
 
 __all__ = ['AdditionalAutoField', 'AdditionalAutoFieldManager',
            'BigAutoField', 'IntegerArrayField', 'BigIntegerArrayField',
@@ -97,7 +102,7 @@ class TypedMultipleField(UntypedMultipleField):
         value = super(TypedMultipleField, self).to_python(value)
         if value not in validators.EMPTY_VALUES:
             try:
-                value = map(self.coerce, value)
+                value = [self.coerce(v) for v in value]
             except (ValueError, TypeError):
                 raise exceptions.ValidationError(self.error_messages['invalid'])
         return value
@@ -163,7 +168,7 @@ class IntegerArrayField(ArrayField):
             return []
 
         if isinstance(value, (str, unicode)):
-            return map(self.coerce, value[1:-1].split(','))
+            return [self.coerce(v) for v in value[1:-1].split(',')]
 
         return value
 
@@ -195,7 +200,8 @@ class StringArrayField(ArrayField):
 
 
 # Utility functions to code/decode objects to/from JSON
-def default_decode((cls, data)):
+def default_decode(cls_data_tuple):
+    cls, data = cls_data_tuple
     cls = get_module_attr(cls)
     obj = cls.__new__(cls)
     obj.__dict__.update(data['__data__'])
