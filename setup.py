@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='handy',
-    version='0.4',
+    version='0.5',
     author='Alexander Schepanovski',
     author_email='suor.web@gmail.com',
 

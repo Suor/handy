@@ -1,3 +1,7 @@
+0.5
+- support python 3 (Andy Hayden)
+- always fill in 'page' in @paginate()
+
 0.4
 - added paginate() decorator and shortcut
 - added fetch_dicts() and fetch_dict()
