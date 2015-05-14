@@ -89,7 +89,7 @@ def last_modified(func):
 from .shortcuts import paginate as _paginate
 
 def paginate(name, ipp, *extra):
-    # Also work as shortcut
+    # Also works as shortcut
     if isinstance(name, HttpRequest):
         return _paginate(name, ipp, *extra)
     assert not extra, "There should be exactly 2 arguments for @paginate"
@@ -103,8 +103,8 @@ def paginate(name, ipp, *extra):
 
             if sequence_like(output[name]):
                 output[name] = _paginate(request, output[name], ipp)
-                if 'page' not in output:
-                    output['page'] = output[name]
+            if 'page' not in output:
+                output['page'] = output[name]
 
             return output
 
