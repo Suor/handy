@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from functools import wraps
-from django.utils.importlib import import_module
+from importlib import import_module
 
 
 from django.db.models.fields.related import ForeignKey
