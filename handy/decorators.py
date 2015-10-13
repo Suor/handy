@@ -2,6 +2,7 @@
 from functools import wraps
 from datetime import datetime
 
+import django
 from django.conf import settings
 from django.template import loader, RequestContext
 from django.http import HttpRequest, HttpResponse
@@ -22,7 +23,10 @@ def render_dict(request, output):
     template = output.pop('TEMPLATE')
     kwargs = dict((k.lower(), output.pop(k)) for k in ('STATUS', 'CONTENT_TYPE') if k in output)
     # rendering remplate and wrapping it into HttpResponse
-    rendered = loader.render_to_string(template, output, RequestContext(request))
+    if django.VERSION >= (1, 8):
+        rendered = loader.render_to_string(template, output, request=request)
+    else:
+        rendered = loader.render_to_string(template, output, RequestContext(request))
     return HttpResponse(rendered, **kwargs)
 
 
