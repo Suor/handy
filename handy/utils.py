@@ -7,8 +7,12 @@ from importlib import import_module
 from django.db.models.fields.related import ForeignKey
 ForeignKey.__dump__ = lambda self: 'ForeignKey(%s.%s -> %s.%s)' % (self.model, self.attname, self.rel.to, self.rel.field_name)
 
-from django.db.models.sql.where import Constraint
-Constraint.__dump__ = lambda self: 'Constraint(%s.%s)' % (self.alias, self.col)
+# Thing removed in Django 1.9
+try:
+    from django.db.models.sql.where import Constraint
+    Constraint.__dump__ = lambda self: 'Constraint(%s.%s)' % (self.alias, self.col)
+except ImportError:
+    pass
 
 
 def obj_dump(obj, indent=0, seen=None):
