@@ -1,3 +1,6 @@
+0.5.4
+- fixed broken import in Django 1.9
+
 0.5.3
 - fixed @render_to() in Django 1.8
 
