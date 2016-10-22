@@ -5,6 +5,7 @@ except ImportError:
     import pickle
 
 import re, datetime
+import django
 from django.db import models
 from django import forms
 from django.core import exceptions, validators
@@ -237,11 +238,12 @@ def decode_object(d):
 class JSONField(models.TextField):
     """JSONField is a generic textfield that neatly serializes/unserializes
     JSON objects seamlessly"""
-    __metaclass__ = models.SubfieldBase
+    if django.VERSION < (1, 8):
+        __metaclass__ = models.SubfieldBase
 
     def to_python(self, value):
         """Convert our string value to JSON after we load it from the DB"""
-        if value == "":
+        if value in ("", None):
             return None
 
         try:
@@ -252,6 +254,9 @@ class JSONField(models.TextField):
 
         return value
 
+    def from_db_value(self, value, expression, connection, context):
+        return self.to_python(value)
+
     def get_prep_value(self, value):
         """Convert our JSON object to a string before we save"""
         if value == "" or value is None:
@@ -260,6 +265,10 @@ class JSONField(models.TextField):
         value = json.dumps(value, default=encode_object, ensure_ascii=False, separators=(',',':'))
 
         return super(JSONField, self).get_prep_value(value)
+
+    def value_to_string(self, obj):
+        value = self.value_from_object(obj)
+        return json.dumps(value, default=encode_object, ensure_ascii=False)
 
     def formfield(self, **kwargs):
         defaults = {
@@ -286,11 +295,12 @@ class PickleField(models.TextField):
     """
     PickleField is a generic textfield that neatly serializes/unserializes
     any python objects seamlessly"""
-    __metaclass__ = models.SubfieldBase
+    if django.VERSION < (1, 8):
+        __metaclass__ = models.SubfieldBase
 
     def to_python(self, value):
         """Convert our string value to JSON after we load it from the DB"""
-        if value == "":
+        if value in ("", None):
             return None
 
         try:
@@ -301,6 +311,9 @@ class PickleField(models.TextField):
 
         return value
 
+    def from_db_value(self, value, expression, connection, context):
+        return self.to_python(value)
+
     def get_prep_value(self, value):
         """Convert our JSON object to a string before we save"""
         if value == "" or value is None:
@@ -308,6 +321,10 @@ class PickleField(models.TextField):
 
         value = pickle.dumps(value)
         return super(PickleField, self).get_prep_value(value)
+
+    def value_to_string(self, obj):
+        value = self.value_from_object(obj)
+        return pickle.dumps(value)
 
 
 class BigIntegerField(models.IntegerField):
