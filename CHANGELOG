@@ -1,3 +1,7 @@
+0.5.5
+- made JSONField and PickleField work with newer Djangos
+- switched to better @cached_property implementation
+
 0.5.4
 - fixed broken import in Django 1.9
 
