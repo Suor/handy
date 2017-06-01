@@ -272,7 +272,7 @@ class JSONField(models.TextField):
 
     def formfield(self, **kwargs):
         defaults = {
-            'form_class': forms.Field,
+            'form_class': forms.CharField,
         }
         defaults.update(kwargs)
         defaults['widget'] = JSONTextarea
