@@ -1,3 +1,6 @@
+0.5.6
+- fixed JsonField form field in new Djangos
+
 0.5.5
 - made JSONField and PickleField work with newer Djangos
 - switched to better @cached_property implementation
