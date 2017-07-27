@@ -2,6 +2,7 @@
 import re, sys, traceback
 from smtplib import SMTPRecipientsRefused
 
+import django
 from django.conf import settings
 from django.core.mail import EmailMessage, mail_admins as django_mail_admins
 from django.template import loader, RequestContext
@@ -41,8 +42,11 @@ def render_to_email(email, template_name, data=None, request=None, from_email=No
     if not email:
         return
 
-    context = RequestContext(request) if request else None
-    content = loader.render_to_string(template_name, data or {}, context)
+    if django.VERSION >= (1, 8):
+        content = loader.render_to_string(template_name, context=data, request=request)
+    else:
+        context = RequestContext(request) if request else None
+        content = loader.render_to_string(template_name, data or {}, context)
 
     subject, content_subtype, headers, email_text = parse_email_data(content)
 
