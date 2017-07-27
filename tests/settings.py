@@ -16,6 +16,13 @@ DATABASES = {
     }
 }
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'APP_DIRS': True,
+    },
+]
+
 TIME_ZONE = 'Asia/Krasnoyarsk'
 
 SECRET_KEY = 'abc'
