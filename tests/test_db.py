@@ -3,9 +3,7 @@ import pytest
 from handy.db import *
 
 
-def pytestmark(func):
-    pytest.mark.django_db(func)
-    pytest.mark.usefixtures('test_table')(func)
+pytestmark = [pytest.mark.django_db, pytest.mark.usefixtures('test_table')]
 
 
 @pytest.fixture(scope='module')
