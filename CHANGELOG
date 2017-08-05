@@ -1,3 +1,6 @@
+0.5.7
+- fixed render_to_email() in newer Djangos
+
 0.5.6
 - fixed JsonField form field in new Djangos
 
