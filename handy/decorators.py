@@ -10,6 +10,7 @@ from django.db.models import QuerySet
 from django.utils.http import http_date
 
 from handy.cross import json
+from django.core.serializers.json import DjangoJSONEncoder
 
 
 def template_guess(func):
@@ -56,13 +57,7 @@ def render_to(template=None):
     return decorator
 
 
-def _json_default(obj):
-    # TODO: unify json func here, in ajax, and the one used by JSONField
-    if isinstance(obj, datetime):
-        return obj.isoformat()
-    raise TypeError
-
-def render_to_json(ensure_ascii=True, default=_json_default):
+def render_to_json(ensure_ascii=True, cls=DjangoJSONEncoder):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -73,9 +68,11 @@ def render_to_json(ensure_ascii=True, default=_json_default):
                 json_data = response
             else:
                 if settings.DEBUG:
-                    json_data = json.dumps(response, sort_keys=True, indent=4, ensure_ascii=False, default=default)
+                    json_data = json.dumps(response, cls=cls, ensure_ascii=False,
+                        sort_keys=True, indent=4)
                 else:
-                    json_data = json.dumps(response, ensure_ascii=ensure_ascii, separators=(',',':'), default=default)
+                    json_data = json.dumps(response, cls=cls, ensure_ascii=ensure_ascii,
+                        separators=(',',':'))
             return HttpResponse(json_data, content_type='application/json')
         return wrapper
     return decorator
