@@ -113,7 +113,7 @@ def pipeline(urls, **kwargs):
             url = 'http://%s%s' % (g.grouper, page)
             index = url_index[url]
             responses[index] = g_responses[i]
-            data[index] = data[i]
+            data[index] = g_data[i]
 
     # Some urls may have been doubled,
     # copy responses and data for them
@@ -125,6 +125,10 @@ def pipeline(urls, **kwargs):
                 data[i] = data[index]
 
     return responses, data
+
+
+class Group(list):
+    pass
 
 
 def group(object_list, key, min_group=1):
