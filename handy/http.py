@@ -3,6 +3,9 @@ import re, urlparse
 from httplib import HTTPConnection, _CS_IDLE
 
 
+__all__ = ['pipeline']
+
+
 def raw_pipeline(domain, pages, max_out_bound=4, method='GET', timeout=None, debuglevel=0):
     pagecount = len(pages)
     conn = HTTPConnection(domain, timeout=timeout)
@@ -148,7 +151,7 @@ if __name__ == '__main__':
     domain = 'en.wikipedia.org:80'
     pages = ('/wiki/HTTP_pipelining', '/wiki/HTTP', '/wiki/HTTP_persistent_connection')
     data = raw_pipeline(domain, pages, debuglevel=1, method='HEAD', max_out_bound=6, timeout=1)
-    for i,page in enumerate(data):
+    for i, _ in enumerate(data):
         print()
         print('==== Page %r ====' % (pages[i],))
         #print page[:512]

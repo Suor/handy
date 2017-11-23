@@ -9,6 +9,9 @@ from django.template import loader, RequestContext
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
+__all__ = ['render_to_email', 'mail_admins']
+
+
 def parse_email_data(content):
     lines = content.splitlines()
 

@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 import re
 
+
+__all__ = ['StripWhitespace']
+
+
 class StripWhitespace(object):
     """
     Strips leading and trailing whitespace from response content.

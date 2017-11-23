@@ -3,6 +3,9 @@ from django import forms
 from django.utils.safestring import mark_safe
 
 
+__all__ = ['SimpleWidget', 'CommaSeparatedInput', 'MultilineInput']
+
+
 class SimpleWidget(forms.Widget):
     def __init__(self, format='%(value)s'):
         super(SimpleWidget, self).__init__()

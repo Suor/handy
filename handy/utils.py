@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from functools import wraps
 from importlib import import_module
+
+
+__all__ = ['obj_dump', 'get_module_attr', 'cached_property', 'get_or_none']
 
 
 from django.db.models.fields.related import ForeignKey
@@ -56,7 +58,7 @@ def get_module_attr(path):
     try:
         mod = import_module(module)
         return getattr(mod, attr, None)
-    except ImportError as e:
+    except ImportError:
         return None
 
 

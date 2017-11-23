@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 from functools import wraps
-from datetime import datetime
 
 import django
 from django.conf import settings
 from django.template import loader, RequestContext
 from django.http import HttpRequest, HttpResponse
-from django.db.models import QuerySet
 from django.utils.http import http_date
 
 from handy.cross import json
 from django.core.serializers.json import DjangoJSONEncoder
+
+
+__all__ = ['render_to', 'render_to_json', 'last_modified', 'paginate']
 
 
 def template_guess(func):

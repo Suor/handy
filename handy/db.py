@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from functools import wraps
-from operator import itemgetter
 from collections import namedtuple
 from contextlib import closing, contextmanager
 
