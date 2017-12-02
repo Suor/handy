@@ -148,6 +148,5 @@ How you can help
 TODO
 ----
 
-- consolidate JSON encoding/decoding
 - docs for text and just utils
 - add support for querysets and models in JSON decorators
