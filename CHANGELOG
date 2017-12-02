@@ -1,3 +1,7 @@
+0.6
+- unified and updated @render_to_json and @ajax serialization
+- fixed http.pipeline()
+
 0.5.7
 - fixed render_to_email() in newer Djangos
 
