@@ -5,9 +5,19 @@ python:
   - 2.7
   - 3.4
   - 3.5
-  - 3.6
+env:
+  - DJANGO=1.8
+  - DJANGO=1.9
+  - DJANGO=1.10
+  - DJANGO=1.11
+matrix:
+  include:
+    - python: 2.7
+      env: DJANGO=1.7
+    - python: 3.6
+      env: DJANGO=1.11
 install:
-  - pip install -r test_requirements.txt
+  - pip install tox-travis
 before_script:
   - psql -c 'create role handy login createdb;' -U postgres
 script:
