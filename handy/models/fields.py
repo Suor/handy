@@ -113,7 +113,7 @@ class TypedMultipleChoiceField(TypedMultipleField, forms.MultipleChoiceField):
 
 class ArrayField(models.Field):
     def value_to_string(self, obj):
-        return self.get_prep_value(self._get_val_from_obj(obj))
+        return self.get_prep_value(self.value_from_object(obj))
 
     def validate(self, value, model_instance):
         # This is mostly copied from Field.validate().
@@ -260,9 +260,7 @@ class JSONField(models.TextField):
         if value == "" or value is None:
             return None
 
-        value = json.dumps(value, default=encode_object, ensure_ascii=False, separators=(',',':'))
-
-        return super(JSONField, self).get_prep_value(value)
+        return json.dumps(value, default=encode_object, ensure_ascii=False, separators=(',',':'))
 
     def value_to_string(self, obj):
         value = self.value_from_object(obj)
@@ -317,8 +315,7 @@ class PickleField(models.TextField):
         if value == "" or value is None:
             return None
 
-        value = pickle.dumps(value)
-        return super(PickleField, self).get_prep_value(value)
+        return pickle.dumps(value)
 
     def value_to_string(self, obj):
         value = self.value_from_object(obj)
