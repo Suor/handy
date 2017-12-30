@@ -245,7 +245,7 @@ class JSONField(models.TextField):
             return None
 
         try:
-            if isinstance(value, basestring):
+            if isinstance(value, (str, unicode)):
                 return json.loads(value, object_hook=decode_object)
         except ValueError:
             pass
