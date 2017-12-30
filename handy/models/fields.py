@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
-
 import django
 from django.db import models
 from django import forms
@@ -13,12 +8,13 @@ from django.utils.translation import ugettext_lazy as _
 
 from handy.cross import json
 from handy.forms import CommaSeparatedInput
-from handy.utils import get_module_attr
+from .encode import encode_object, decode_object, safe_encode, safe_decode
 
 try:
     unicode
 except NameError: # py3
     unicode = str
+    basestring = str
 
 
 __all__ = ['AdditionalAutoField', 'AdditionalAutoFieldManager',
@@ -166,7 +162,7 @@ class IntegerArrayField(ArrayField):
         if value == '{}':
             return []
 
-        if isinstance(value, (str, unicode)):
+        if isinstance(value, basestring):
             return [self.coerce(v) for v in value[1:-1].split(',')]
 
         return value
@@ -197,41 +193,6 @@ class StringArrayField(ArrayField):
     def db_type(self, connection):
         return 'varchar(%s)[]' % self.max_length
 
-
-# Utility functions to code/decode objects to/from JSON
-def default_decode(cls_data_tuple):
-    cls, data = cls_data_tuple
-    cls = get_module_attr(cls)
-    obj = cls.__new__(cls)
-    obj.__dict__.update(data['__data__'])
-    return obj
-
-def encode_object(obj):
-    if hasattr(obj, '__json__'):
-        data = obj.__json__()
-        if isinstance(data, tuple):
-            decode, data = data
-        else:
-            decode = default_decode
-            data = ('%s.%s' % (obj.__class__.__module__, obj.__class__.__name__), data)
-
-        if callable(decode):
-            decode = '%s.%s' % (decode.__module__, decode.__name__)
-
-        return {
-            '__decode__': decode,
-            '__data__': data
-        }
-    else:
-        return dict(__pickled__=pickle.dumps(obj))
-
-def decode_object(d):
-    if '__decode__' in d:
-        return get_module_attr(d['__decode__'])(d['__data__'])
-    elif '__pickled__' in d:
-        return pickle.loads(str(d['__pickled__']))
-    else:
-        return d
 
 class JSONField(models.TextField):
     """JSONField is a generic textfield that neatly serializes/unserializes
@@ -286,7 +247,6 @@ class JSONTextarea(forms.Textarea):
         return super(JSONTextarea, self).render(name, json.dumps(value), attrs=attrs)
 
 
-
 class PickleField(models.TextField):
     """
     PickleField is a generic textfield that neatly serializes/unserializes
@@ -301,7 +261,7 @@ class PickleField(models.TextField):
 
         try:
             if isinstance(value, basestring):
-                return pickle.loads(str(value))
+                return safe_decode(value)
         except ValueError:
             pass
 
@@ -314,12 +274,11 @@ class PickleField(models.TextField):
         """Convert our JSON object to a string before we save"""
         if value == "" or value is None:
             return None
-
-        return pickle.dumps(value)
+        return safe_encode(value)
 
     def value_to_string(self, obj):
         value = self.value_from_object(obj)
-        return pickle.dumps(value)
+        return safe_encode(value)
 
 
 class BigIntegerField(models.IntegerField):

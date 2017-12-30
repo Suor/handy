@@ -2,6 +2,12 @@
 from django import forms
 from django.utils.safestring import mark_safe
 
+try:
+    unicode
+except NameError: # py3
+    unicode = str
+    basestring = str
+
 
 __all__ = ['SimpleWidget', 'CommaSeparatedInput', 'MultilineInput']
 
