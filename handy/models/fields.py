@@ -200,6 +200,16 @@ class JSONField(models.TextField):
     if django.VERSION < (1, 8):
         __metaclass__ = models.SubfieldBase
 
+    def __init__(self, *args, **kwargs):
+        self.pickle = kwargs.pop('pickle', False)
+        super(JSONField, self).__init__(*args, **kwargs)
+
+    def deconstruct(self):
+        name, path, args, kwargs = super(JSONField, self).deconstruct()
+        if self.pickle:
+            kwargs['pickle'] = True
+        return name, path, args, kwargs
+
     def to_python(self, value):
         """Convert our string value to JSON after we load it from the DB"""
         if value in ("", None):
@@ -207,7 +217,7 @@ class JSONField(models.TextField):
 
         try:
             if isinstance(value, (str, unicode)):
-                return json.loads(value, object_hook=decode_object)
+                return json.loads(value, object_hook=decode_object if self.pickle else None)
         except ValueError:
             pass
 
@@ -220,12 +230,13 @@ class JSONField(models.TextField):
         """Convert our JSON object to a string before we save"""
         if value == "" or value is None:
             return None
-
-        return json.dumps(value, default=encode_object, ensure_ascii=False, separators=(',',':'))
+        return json.dumps(value, default=encode_object if self.pickle else None,
+                         ensure_ascii=False, separators=(',',':'))
 
     def value_to_string(self, obj):
         value = self.value_from_object(obj)
-        return json.dumps(value, default=encode_object, ensure_ascii=False)
+        return json.dumps(value, default=encode_object if self.pickle else None,
+                          ensure_ascii=False)
 
     def formfield(self, **kwargs):
         defaults = {

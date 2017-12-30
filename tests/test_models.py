@@ -2,7 +2,7 @@
 import pytest
 pytestmark = pytest.mark.django_db
 
-from .models import Post, CategoryJSON, CategoryPickle
+from .models import Post, CategoryJ, CategoryJP, CategoryP
 
 
 def test_stringarray():
@@ -15,9 +15,16 @@ def test_stringarray_ru():
 
 
 def test_jsonfield():
-    category = CategoryJSON.objects.create(info={'hey': 42})
-    assert CategoryJSON.objects.get(pk=category.pk).info == category.info
+    category = CategoryJ.objects.create(info={'hey': 42})
+    assert CategoryJ.objects.get(pk=category.pk).info == category.info
 
-def test_jsonfield():
-    category = CategoryPickle.objects.create(info={'hey': 42})
-    assert CategoryPickle.objects.get(pk=category.pk).info == category.info
+    with pytest.raises(TypeError):
+        CategoryJ.objects.create(info={'hey': object})
+
+def test_jsonpfield():
+    category = CategoryJP.objects.create(info={'hey': object})
+    assert CategoryJP.objects.get(pk=category.pk).info == {'hey': object}
+
+def test_picklefield():
+    category = CategoryP.objects.create(info={'hey': 42})
+    assert CategoryP.objects.get(pk=category.pk).info == category.info

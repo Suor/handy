@@ -6,9 +6,13 @@ class Post(models.Model):
     tags = StringArrayField()
 
 
-class CategoryJSON(models.Model):
+class CategoryJ(models.Model):
     info = JSONField()
 
 
-class CategoryPickle(models.Model):
+class CategoryJP(models.Model):
+    info = JSONField(pickle=True)
+
+
+class CategoryP(models.Model):
     info = PickleField()
