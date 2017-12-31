@@ -27,5 +27,5 @@ An example of ajax handler and JSON datasource::
         return Post.object.values().filter(tag=tag)
 
 
-See also :ref:`@render_to_json() <render_to_json>`
+See also :func:`@render_to_json() <render_to_json>`
 

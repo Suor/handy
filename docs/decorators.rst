@@ -84,7 +84,6 @@ View decorators
         {% endif %}
 
 
-.. _render_to_json:
 .. decorator:: render_to_json(ensure_ascii=True, default=_json_default)
 
     Serializes view result to json and wraps into ``HttpResponse``. Arguments are forwarded to
