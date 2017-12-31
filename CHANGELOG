@@ -1,6 +1,20 @@
+0.7
+- fixed JSONField and PickleField in Django 1.9+
+- fixed Python 3 support in some model fields
+- support PyPy
+- added pickle param to JSONField
+Backwards-incompatible changes:
+- JSONField no longer pickles everything non-jsonifyable by default,
+  set its pickle parameter to True to return this behavior.
+- PickleField and JSONField pickles are encoded differently,
+  so upgrade with old data won't just work.
+
 0.6
 - unified and updated @render_to_json and @ajax serialization
 - fixed http.pipeline()
+Backwards-incompatible changes:
+- @ajax no longer support .__json__() method or special datetime handling.
+  It uses Django encoder now.
 
 0.5.7
 - fixed render_to_email() in newer Djangos
