@@ -28,9 +28,9 @@ Here come some custom model fields mostly designed to work with PostgreSQL.
                 model = Company # No additional magic needed
 
 
-.. class:: JSONField
+.. class:: JSONField(pickle=False)
 
-    A field for storing arbitrary jsonifyable data.
+    A field for storing arbitrary jsonifyable data. Set ``pickle`` to True to pickle anything non-jsonifyable.
 
 
 .. class:: PickleField
