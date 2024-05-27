@@ -26,13 +26,13 @@ def parse_email_data(content):
 
         m = re.search(r'^([\w-]+): (.+)', line.strip())
         if not m:
-            raise ValueError('Email subject required\nPrepend email content with "Subject:\s<subject>\\n\\n"')
+            raise ValueError('Email subject required\nPrepend email content with "Subject:\\s<subject>\\n\\n"')
         name, value = m.groups()
 
         if name == 'Subject':
             subject = value
         elif name == 'Content-Type':
-            m = re.search('^text/([\w-]+)', value)
+            m = re.search(r'^text/([\w-]+)', value)
             if not m:
                 raise ValueError('Erroneous email content type %s' % value)
             content_subtype = m.group(1)
