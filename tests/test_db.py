@@ -6,7 +6,7 @@ from handy.db import *
 pytestmark = [pytest.mark.django_db, pytest.mark.usefixtures('test_table')]
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture
 def test_table():
     # NOTE: We wrap that into transaction because in other case django will gobble it up
     #       into single transaction with first test and then rollback everything happily on

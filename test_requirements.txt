@@ -1,5 +1,4 @@
-Django>=1.7
+Django>=1.7,<4.0
 psycopg2>=2.4.6
 pytest>=2.3.4
 pytest-django>=3.1.2
-pytest-pythonpath
